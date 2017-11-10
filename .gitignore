@@ -216,4 +216,13 @@ pip-log.txt
 .mr.developer.cfg
 
 #Unity
-Library\metadata
+Library/metadata
+Library/metadata/00/00690c0e075198740bd736a4731c7a90
+Library/UnityAssemblies
+Library/ShaderCache
+Library/
+Library/ScriptAssemblies
+Library/metadata/a1/a17a3c44e35e3594f835656632850c3f
+Temp/UnityLockfile
+Temp/
+Library/UnityAssemblies/version.txt
