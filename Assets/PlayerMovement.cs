@@ -44,8 +44,6 @@ public class PlayerMovement : MonoBehaviour
         {
             m_Character.Move(Vector3.zero, false, false);
         }
-
-        //m_Character.Move(new Vector3(0, 0, 0), false, false); // set move to 0 ie stop moving
     }
 }
 
