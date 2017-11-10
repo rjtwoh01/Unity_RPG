@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Udemy RPG.Plugins", "Udemy RPG.Plugins.csproj", "{37CA6497-6C05-226C-3BB6-A2CEC92BA166}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Udemy RPG", "Udemy RPG.csproj", "{59C20C0F-9B8B-C7F3-11E6-16845A2F6252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Udemy RPG.Editor.Plugins", "Udemy RPG.Editor.Plugins.csproj", "{D8B7425A-5BFD-096A-4544-34B17CECE6CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37CA6497-6C05-226C-3BB6-A2CEC92BA166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37CA6497-6C05-226C-3BB6-A2CEC92BA166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37CA6497-6C05-226C-3BB6-A2CEC92BA166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37CA6497-6C05-226C-3BB6-A2CEC92BA166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59C20C0F-9B8B-C7F3-11E6-16845A2F6252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C20C0F-9B8B-C7F3-11E6-16845A2F6252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C20C0F-9B8B-C7F3-11E6-16845A2F6252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C20C0F-9B8B-C7F3-11E6-16845A2F6252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B7425A-5BFD-096A-4544-34B17CECE6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B7425A-5BFD-096A-4544-34B17CECE6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B7425A-5BFD-096A-4544-34B17CECE6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B7425A-5BFD-096A-4544-34B17CECE6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
