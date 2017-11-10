@@ -5,6 +5,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 [RequireComponent(typeof (ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] float walkMoveStopRadius = 0.2f;
     ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
@@ -19,18 +20,32 @@ public class PlayerMovement : MonoBehaviour
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
-        if (cameraRaycaster.layerHit == Layer.Walkable)
+        if (Input.GetMouseButton(0))
         {
-            if (Input.GetMouseButton(0))
+            switch (cameraRaycaster.layerHit)
             {
-                currentClickTarget = cameraRaycaster.hit.point;  // So not set in default case
-            }
-            m_Character.Move(currentClickTarget - transform.position, false, false);
-            if (m_Character.transform.position == (currentClickTarget - transform.position))
-            {
-                m_Character.Move(new Vector3(0,0,0), false, false); // set move to 0 ie stop moving
+                case Layer.Walkable:
+                    currentClickTarget = cameraRaycaster.hit.point;
+                    break;
+                case Layer.Enemy:
+                    print("I cannot move on to Enemy");
+                    break;
+                default:
+                    print("Unexpected layer found");
+                    return;
             }
         }
+        var playerToClickPoint = currentClickTarget - transform.position;
+        if (playerToClickPoint.magnitude >= walkMoveStopRadius)
+        {
+            m_Character.Move(playerToClickPoint, false, false);            
+        }
+        else
+        {
+            m_Character.Move(Vector3.zero, false, false);
+        }
+
+        //m_Character.Move(new Vector3(0, 0, 0), false, false); // set move to 0 ie stop moving
     }
 }
 
