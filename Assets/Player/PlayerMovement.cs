@@ -12,9 +12,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 currentClickTarget;
 
     //TODO: Consider removing the ability for WSAD altogether
-    //Could make gamepad (controller) instead with the toggle
+    //TODO: Make controller only in case of toggle if remove WSADb 
     bool isInDirectMode = false; //TODO: Consider making static later
-    bool jump = false;
+    [SerializeField]bool jump = false;
         
     private void Start()
     {
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isInDirectMode = !isInDirectMode; //toggle mode
         }
-        if (isInDirectMode) { ProcessKeyboardMovement(); }
+        if (isInDirectMode) { ProcessDirectMovement(); }
         else {
             ProcessMouseMovement();
         }
@@ -72,7 +72,12 @@ public class PlayerMovement : MonoBehaviour
         jump = false;
     }
 
-    private void ProcessKeyboardMovement()
+    /// <summary>
+    /// Direct movement is something where the player has direct control of their character
+    /// While they're holding a key or pushing a joystick, the character is moving in that direction
+    /// Its not like a mouse where you click and they go there, you're controller them as they go there
+    /// </summary>
+    private void ProcessDirectMovement()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
