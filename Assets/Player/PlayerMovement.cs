@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof (ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +10,11 @@ public class PlayerMovement : MonoBehaviour
     ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
+
+    //TODO: Consider removing the ability for WSAD altogether
+    //Could make gamepad (controller) instead with the toggle
+    bool isInDirectMode = false; //TODO: Consider making static later
+    bool jump = false;
         
     private void Start()
     {
@@ -17,10 +23,27 @@ public class PlayerMovement : MonoBehaviour
         currentClickTarget = transform.position;
     }
 
-    //TODO: Fix issue with click to move and WSAD conflicting and increasing speed
+    private void Update()
+    {
+        if (!jump)
+            jump = CrossPlatformInputManager.GetButtonDown("Jump");
+    }
 
     // Fixed update is called in sync with physics
     private void FixedUpdate()
+    {
+        //TODO: Allow player to map later or add to menu
+        if (Input.GetKeyDown(KeyCode.G)) //G for gamepad.
+        {
+            isInDirectMode = !isInDirectMode; //toggle mode
+        }
+        if (isInDirectMode) { ProcessKeyboardMovement(); }
+        else {
+            ProcessMouseMovement();
+        }
+    }
+
+    private void ProcessMouseMovement()
     {
         if (Input.GetMouseButton(0))
         {
@@ -40,12 +63,26 @@ public class PlayerMovement : MonoBehaviour
         var playerToClickPoint = currentClickTarget - transform.position;
         if (playerToClickPoint.magnitude >= walkMoveStopRadius)
         {
-            m_Character.Move(playerToClickPoint, false, false);            
+            m_Character.Move(playerToClickPoint, false, false);
         }
         else
         {
-            m_Character.Move(Vector3.zero, false, false);
+            m_Character.Move(Vector3.zero, false, jump);
         }
+        jump = false;
+    }
+
+    private void ProcessKeyboardMovement()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        // calculate camera relative direction to move:
+        Vector3 m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 m_Move = v * m_CamForward + h * Camera.main.transform.right;
+
+        m_Character.Move(m_Move, false, jump);
+        jump = false;
     }
 }
 
