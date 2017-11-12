@@ -12,10 +12,10 @@ public class CameraRaycaster : MonoBehaviour
     [SerializeField]float distanceToBackground = 100f;
     Camera viewCamera;
 
-    RaycastHit m_hit;
+    RaycastHit rayCastHit;
     public RaycastHit hit
     {
-        get { return m_hit; }
+        get { return rayCastHit; }
     }
 
     Layer layerHit;
@@ -23,6 +23,10 @@ public class CameraRaycaster : MonoBehaviour
     {
         get { return layerHit; }
     }
+
+    public delegate void OnLayerChange(Layer newLayer);
+    public event OnLayerChange layerChangeObservers; //insantiate a observer set
+    
 
     void Start()
     {
@@ -37,15 +41,23 @@ public class CameraRaycaster : MonoBehaviour
             var hit = RaycastForLayer(layer);
             if (hit.HasValue)
             {
-                m_hit = hit.Value;
-                layerHit = layer;
+                rayCastHit = hit.Value;
+                if (layerHit != layer)
+                {
+                    layerHit = layer;
+                    layerChangeObservers(layer);
+                }
                 return;
             }
         }
 
         // Otherwise return background hit
-        m_hit.distance = distanceToBackground;
-        layerHit = Layer.RaycastEndStop;
+        rayCastHit.distance = distanceToBackground;
+        if (layerHit != Layer.RaycastEndStop)
+        {
+            layerHit = Layer.RaycastEndStop;
+            layerChangeObservers(layerHit);
+        }        
     }
 
     RaycastHit? RaycastForLayer(Layer layer)

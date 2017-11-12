@@ -14,13 +14,14 @@ public class CursorAffordance : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         cameraRayCaster = GetComponent<CameraRaycaster>();
+        cameraRayCaster.layerChangeObservers += OnLayerChange;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        if (cameraRayCaster.currentLayerHit == Layer.Walkable)
+	void OnLayerChange(Layer layer) {
+        print(layer.ToString());
+        if (layer == Layer.Walkable)
             Cursor.SetCursor(walkCursor, cursorHotspot, CursorMode.Auto);
-        else if (cameraRayCaster.currentLayerHit == Layer.Enemy)
+        else if (layer == Layer.Enemy)
             Cursor.SetCursor(attackCursor, cursorHotspot, CursorMode.Auto);
         else //the "unknown" out of map
             Cursor.SetCursor(questionCursor, cursorHotspot, CursorMode.Auto);
