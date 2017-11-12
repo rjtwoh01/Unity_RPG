@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessMouseMovement()
     {
+        var playerPosition = transform.position;
         if (Input.GetMouseButton(0))
         {
             switch (cameraRaycaster.currentLayerHit)
@@ -53,14 +54,15 @@ public class PlayerMovement : MonoBehaviour
                     currentClickTarget = cameraRaycaster.hit.point;
                     break;
                 case Layer.Enemy:
-                    print("I cannot move on to Enemy");
+                    currentClickTarget = cameraRaycaster.hit.point;
+                    //print("I cannot move on to Enemy");
                     break;
                 default:
                     print("Unexpected layer found");
                     return;
             }
         }
-        var playerToClickPoint = currentClickTarget - transform.position;
+        var playerToClickPoint = currentClickTarget - playerPosition;
         if (playerToClickPoint.magnitude >= walkMoveStopRadius)
         {
             thirdPersonCharacter.Move(playerToClickPoint, false, false);
