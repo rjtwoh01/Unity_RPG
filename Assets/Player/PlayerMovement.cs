@@ -7,19 +7,19 @@ using UnityStandardAssets.CrossPlatformInput;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float walkMoveStopRadius = 0.2f;
-    ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
+    ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
 
     //TODO: Consider removing the ability for WSAD altogether
     //TODO: Make controller only in case of toggle if remove WSADb 
-    bool isInDirectMode = false; //TODO: Consider making static later
+    bool isInDirectMode = false;
     [SerializeField]bool jump = false;
         
     private void Start()
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-        m_Character = GetComponent<ThirdPersonCharacter>();
+        thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
         currentClickTarget = transform.position;
     }
 
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            switch (cameraRaycaster.layerHit)
+            switch (cameraRaycaster.currentLayerHit)
             {
                 case Layer.Walkable:
                     currentClickTarget = cameraRaycaster.hit.point;
@@ -63,11 +63,11 @@ public class PlayerMovement : MonoBehaviour
         var playerToClickPoint = currentClickTarget - transform.position;
         if (playerToClickPoint.magnitude >= walkMoveStopRadius)
         {
-            m_Character.Move(playerToClickPoint, false, false);
+            thirdPersonCharacter.Move(playerToClickPoint, false, false);
         }
         else
         {
-            m_Character.Move(Vector3.zero, false, jump);
+            thirdPersonCharacter.Move(Vector3.zero, false, jump);
         }
         jump = false;
     }
@@ -86,7 +86,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 m_Move = v * m_CamForward + h * Camera.main.transform.right;
 
-        m_Character.Move(m_Move, false, jump);
+        thirdPersonCharacter.Move(m_Move, false, jump);
+        currentClickTarget = transform.position; //sets the click target to this new location just in case we toggle back
         jump = false;
     }
 }

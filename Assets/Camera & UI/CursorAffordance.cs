@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof(CameraRaycaster))]
 public class CursorAffordance : MonoBehaviour {
 
     [SerializeField] Texture2D walkCursor = null;
     [SerializeField] Texture2D attackCursor = null;
     [SerializeField] Texture2D questionCursor = null;
-    [SerializeField] Vector2 cursorHotspot = new Vector2(96, 96);//deminsion of texture
+    [SerializeField] Vector2 cursorHotspot = new Vector2(0, 0);//deminsion of texture
     CameraRaycaster cameraRayCaster;
 
 	// Use this for initialization
@@ -17,9 +18,9 @@ public class CursorAffordance : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (cameraRayCaster.layerHit == Layer.Walkable)
+        if (cameraRayCaster.currentLayerHit == Layer.Walkable)
             Cursor.SetCursor(walkCursor, cursorHotspot, CursorMode.Auto);
-        else if (cameraRayCaster.layerHit == Layer.Enemy)
+        else if (cameraRayCaster.currentLayerHit == Layer.Enemy)
             Cursor.SetCursor(attackCursor, cursorHotspot, CursorMode.Auto);
         else //the "unknown" out of map
             Cursor.SetCursor(questionCursor, cursorHotspot, CursorMode.Auto);

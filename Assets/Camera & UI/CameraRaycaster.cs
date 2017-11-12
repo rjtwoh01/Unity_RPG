@@ -18,13 +18,13 @@ public class CameraRaycaster : MonoBehaviour
         get { return m_hit; }
     }
 
-    Layer m_layerHit;
-    public Layer layerHit
+    Layer layerHit;
+    public Layer currentLayerHit
     {
-        get { return m_layerHit; }
+        get { return layerHit; }
     }
 
-    void Start() // TODO Awake?
+    void Start()
     {
         viewCamera = Camera.main;
     }
@@ -38,14 +38,14 @@ public class CameraRaycaster : MonoBehaviour
             if (hit.HasValue)
             {
                 m_hit = hit.Value;
-                m_layerHit = layer;
+                layerHit = layer;
                 return;
             }
         }
 
         // Otherwise return background hit
         m_hit.distance = distanceToBackground;
-        m_layerHit = Layer.RaycastEndStop;
+        layerHit = Layer.RaycastEndStop;
     }
 
     RaycastHit? RaycastForLayer(Layer layer)
