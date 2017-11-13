@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityStandardAssets.CrossPlatformInput;
@@ -112,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, currentDestination);
         Gizmos.DrawSphere(currentDestination, 0.1f);
         Gizmos.DrawSphere(clickPoint, 0.15f);
+
+        //Draw attack sphere
+        Gizmos.color = new Color(255f, 0f, 0, .5f);
+        Gizmos.DrawWireSphere(transform.position, attackStopMoveRadius);
     }
 }
-
