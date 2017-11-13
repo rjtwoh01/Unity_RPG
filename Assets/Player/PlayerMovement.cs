@@ -62,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
                     print("Unexpected layer found");
                     return;
             }
-        }        
+        }
+        WalkToDestination();
     }
 
     private void WalkToDestination()
