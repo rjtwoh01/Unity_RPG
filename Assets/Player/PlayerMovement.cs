@@ -46,8 +46,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void ProcessMouseMovement()
-    {
-        var playerPosition = transform.position;
+    {        
         if (Input.GetMouseButton(0))
         {
             clickPoint = cameraRaycaster.hit.point;
@@ -63,7 +62,12 @@ public class PlayerMovement : MonoBehaviour
                     print("Unexpected layer found");
                     return;
             }
-        }
+        }        
+    }
+
+    private void WalkToDestination()
+    {
+        var playerPosition = transform.position;
         var playerToClickPoint = currentDestination - playerPosition;
         if (playerToClickPoint.magnitude >= walkMoveStopRadius)
         {
