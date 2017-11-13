@@ -7,9 +7,11 @@ using UnityStandardAssets.CrossPlatformInput;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float walkMoveStopRadius = 0.2f;
+    [SerializeField] float attackStopMoveRadius = 1f;
     ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
-    Vector3 currentClickTarget;
+    Vector3 currentDestination;
+    Vector3 clickPoint;
 
     //TODO: Consider removing the ability for WSAD altogether
     //TODO: Make controller only in case of toggle if remove WSADb 
@@ -20,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
-        currentClickTarget = transform.position;
+        currentDestination = transform.position;
     }
 
     private void Update()
@@ -48,21 +50,21 @@ public class PlayerMovement : MonoBehaviour
         var playerPosition = transform.position;
         if (Input.GetMouseButton(0))
         {
+            clickPoint = cameraRaycaster.hit.point;
             switch (cameraRaycaster.currentLayerHit)
             {
                 case Layer.Walkable:
-                    currentClickTarget = cameraRaycaster.hit.point;
+                    currentDestination = ShortDestination(clickPoint, walkMoveStopRadius);
                     break;
                 case Layer.Enemy:
-                    currentClickTarget = cameraRaycaster.hit.point;
-                    //print("I cannot move on to Enemy");
+                    currentDestination = ShortDestination(clickPoint, attackStopMoveRadius);
                     break;
                 default:
                     print("Unexpected layer found");
                     return;
             }
         }
-        var playerToClickPoint = currentClickTarget - playerPosition;
+        var playerToClickPoint = currentDestination - playerPosition;
         if (playerToClickPoint.magnitude >= walkMoveStopRadius)
         {
             thirdPersonCharacter.Move(playerToClickPoint, false, false);
@@ -89,8 +91,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 m_Move = v * m_CamForward + h * Camera.main.transform.right;
 
         thirdPersonCharacter.Move(m_Move, false, jump);
-        currentClickTarget = transform.position; //sets the click target to this new location just in case we toggle back
+        currentDestination = transform.position; //sets the click target to this new location just in case we toggle back
         jump = false;
+    }
+
+    Vector3 ShortDestination(Vector3 destination, float shortening)
+    {
+        Vector3 reductionVector = (destination - transform.position).normalized * shortening;
+        return destination - reductionVector;
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(transform.position, currentDestination);
+        Gizmos.DrawSphere(currentDestination, 0.1f);
+        Gizmos.DrawSphere(clickPoint, 0.15f);
     }
 }
 
