@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
     //TODO: Make controller only in case of toggle if remove WSADb 
     bool isInDirectMode = false;
     [SerializeField]bool jump = false;
+    //We want the player to be either ranged or melee depending on weapon and attack ability
+    //Ranged or melee will change fundamentals of movement when attacking enemies are involved
+    //In melee, the player will run up to the enemy and then attack
+    //In ranged, the player will just attack from where they are currently standing
+    [SerializeField]bool isRanged = false;
         
     private void Start()
     {
@@ -103,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 ShortDestination(Vector3 destination, float shortening)
     {
         Vector3 reductionVector = (destination - transform.position).normalized * shortening;
-        return destination - reductionVector;
+        return (destination - reductionVector);
     }
     
     private void OnDrawGizmos()
